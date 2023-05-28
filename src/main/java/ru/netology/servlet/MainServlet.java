@@ -1,14 +1,14 @@
 package ru.netology.servlet;
 
+import ru.netology.config.JavaConfig;
 import ru.netology.controller.PostController;
-import ru.netology.repository.PostRepository;
-import ru.netology.service.PostService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class MainServlet extends HttpServlet {
+
   private PostController controller;
 
   private static final String GET = "GET";
@@ -17,9 +17,7 @@ public class MainServlet extends HttpServlet {
 
   @Override
   public void init() {
-    final var repository = new PostRepository();
-    final var service = new PostService(repository);
-    controller = new PostController(service);
+    controller =  new JavaConfig().postController();
   }
 
   @Override
@@ -29,6 +27,7 @@ public class MainServlet extends HttpServlet {
       final var path = req.getRequestURI();
       final var method = req.getMethod();
       // primitive routing
+      if (method.equals(GET) && path.equals("/")) resp.getWriter().print("Server started...");
       if (method.equals(GET) && path.equals("/api/posts")) {
         controller.all(resp);
         return;
@@ -49,7 +48,6 @@ public class MainServlet extends HttpServlet {
         controller.removeById(id, resp);
         return;
       }
-      if (method.equals(POST) && path.equals("/")) resp.getWriter().print("Server started...");
       resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     } catch (Exception e) {
       e.printStackTrace();
