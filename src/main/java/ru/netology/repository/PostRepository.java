@@ -3,7 +3,10 @@ package ru.netology.repository;
 import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -34,7 +37,7 @@ public class PostRepository {
         } else if (repository.containsKey(post.getId())) {
             repository.replace(post.getId(), post);
         } else {
-            throw new NotFoundException("Post with id " + post.getId() + " not found");
+            post.setContent("Post with id " + post.getId() + " not found");
         }
         return post;
     }
