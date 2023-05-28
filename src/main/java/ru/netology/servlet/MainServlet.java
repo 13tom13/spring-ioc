@@ -45,7 +45,9 @@ public class MainServlet extends HttpServlet {
         controller.removeById(id, resp);
         return;
       }
+      if (method.equals("GET") && path.equals("/")) resp.getWriter().print("Server started...");
       resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      System.out.println("method: " + method +" path: " + path);
     } catch (Exception e) {
       e.printStackTrace();
       resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
