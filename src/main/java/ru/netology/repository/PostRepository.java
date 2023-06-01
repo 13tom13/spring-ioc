@@ -43,7 +43,7 @@ public class PostRepository {
     }
 
     public void removeById(long id) {
-      if (repository.containsKey(id)){
+      if (repository.containsKey(id) && !repository.get(id).isRemoved()){
         repository.get(id).setRemoved(true);
       } else {
         throw new NotFoundException(id);
