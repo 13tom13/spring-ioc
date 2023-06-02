@@ -34,7 +34,7 @@ public class PostRepository {
         if (post.getId() == 0) {
             post.setId(COUNTER.getAndIncrement());
             repository.put(post.getId(), post);
-        } else if (repository.containsKey(post.getId())) {
+        } else if (repository.containsKey(post.getId()) && !repository.get(post.getId()).isRemoved()) {
             repository.replace(post.getId(), post);
         } else {
             throw new NotFoundException(post.getId());
